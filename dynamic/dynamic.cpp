@@ -54,17 +54,6 @@ int RemoveFromArray( int*& array, int& size, int position )
 	return 0;
 }
 
-int CopyArray( int* arrayA, int*& arrayB, int sizeA, int& sizeB )
-{
-	sizeB = sizeA;
-	arrayB = (int*)realloc( arrayB, sizeB * sizeof( int ) );
-
-	for ( int i = 0; i < sizeB; i++ )
-		arrayB[i] = arrayA[i];
-
-	return 0;
-}
-
 int SumOfDigits( int number )
 {
 	int result = 0;
@@ -79,27 +68,29 @@ int SumOfDigits( int number )
 	return result;
 }
 
-int FilterArray( int*& array, int& size )
+int CreateNewArray( int* arrayA, int* arrayB, int sizeA, int& sizeB )
 {
-	int writeIndex = 0, s;
+	sizeB = 0;
 
-	for ( int i = 0; i < size; i++ )
-		if ( ( s = SumOfDigits( array[i] ) ) % 7 == 0 and s != 0 )
-			array[writeIndex++] = array[i];
+	for ( int i = 0; i < sizeA; i++ )
+	{
+		if ( SumOfDigits( arrayA[i] ) % 7 == 0 )
+		{
+			if ( sizeB > 0 )
+			{
+				int j = sizeB++ - 1;
+				while ( j >= 1 and arrayB[j] < arrayA[i] )
+					j--;
 
-	size = writeIndex;
-	array = (int*)( realloc( array, size * sizeof( int ) ) );
+				for ( int k = sizeB - 1; k > j + 1; k-- )
+					arrayB[k] = arrayB[k - 1];
 
-
-	return 0;
-}
-
-int SortArray( int*& array, int size )
-{
-	for ( int i = 0; i < size - 1; i++ )
-		for ( int j = 1; j < size - i - 1; j++ )
-			if ( array[j] < array[j + 1] )
-				swap( array[j], array[j + 1] );
+				arrayB[j + 1] = arrayA[i];
+			}
+			else
+				arrayB[sizeB++] = arrayA[i];
+		}
+	}
 
 	return 0;
 }
@@ -237,12 +228,8 @@ int main()
 
 			case '4':
 			{
-				CopyArray( dynamicArray, newDynamicArray, currentArraySize, currentNewArraySize );
-				FilterArray( newDynamicArray, currentNewArraySize );
-				SortArray( newDynamicArray, currentNewArraySize );
-
+				CreateNewArray( dynamicArray, newDynamicArray, currentArraySize, currentNewArraySize );
 				cout << "Новый массив успешно сформирован\n";
-
 
 				break;
 			}

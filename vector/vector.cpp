@@ -62,26 +62,25 @@ int SumOfDigits( int number )
 	return result;
 }
 
-int FilterArray( vector<int>& array )
+int CreateNewArray( vector<int> arrayA, vector<int>& arrayB )
 {
-	int writeIndex = 0, s;
+	for ( int i = 0; i < arrayA.size(); i++ )
+	{
+		if ( SumOfDigits( arrayA[i] ) % 7 == 0 )
+		{
+			if ( arrayB.size() > 0 )
+			{
+				auto position = arrayB.begin() + 1;
 
-	for ( int i = 0; i < array.size(); i++ )
-		if ( ( s = SumOfDigits( array[i] ) ) % 7 == 0 and s != 0 )
-			array[writeIndex++] = array[i];
+				while ( position != arrayB.end() and *position > arrayA[i] )
+					position++;
 
-	array.resize( writeIndex );
-
-
-	return 0;
-}
-
-int SortArray( vector<int>& array )
-{
-	for ( int i = 0; i < array.size() - 1; i++ )
-		for ( int j = 1; j < array.size() - i - 1; j++ )
-			if ( array[j] < array[j + 1] )
-				swap( array[j], array[j + 1] );
+				arrayB.insert( position, arrayA[i] );
+			}
+			else
+				arrayB.push_back( arrayA[i] );
+		}
+	}
 
 	return 0;
 }
@@ -145,7 +144,7 @@ int main()
 
 	while ( true )
 	{
-		cout << "\nВыберите действие: ";
+		cout << "\nВыберите действи1е: ";
 		cin >> menu;
 
 		switch ( menu )
@@ -202,11 +201,7 @@ int main()
 
 			case '4':
 			{
-				newArray = array;
-
-				FilterArray( newArray );
-				SortArray( newArray );
-
+				CreateNewArray( array, newArray );
 				cout << "Новый массив успешно сформирован\n";
 
 
