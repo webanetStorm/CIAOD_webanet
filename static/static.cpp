@@ -20,29 +20,29 @@ int PrintMenu()
 	return 0;
 }
 
-int PrintArray( int arrayToPrint[], int size )
+int PrintArray( int array[], int size )
 {
 	cout << "Массив: ";
 
 	for ( int i = 0; i < size; i++ )
-		cout << arrayToPrint[i] << ' ';
+		cout << array[i] << ' ';
 	cout << endl;
 
 
 	return 0;
 }
 
-int AddToArray( int staticArray[], int& size, int newNumber )
+int AddToArray( int array[], int& size, int newNumber )
 {
 	if ( size >= MAX_STATIC_SIZE )
 		return -1;
 
-	staticArray[size++] = newNumber;
+	array[size++] = newNumber;
 
 	return 0;
 }
 
-int RemoveFromArray( int staticArray[], int& size, int position )
+int RemoveFromArray( int array[], int& size, int position )
 {
 	if ( size <= 0 )
 		return -1;
@@ -50,7 +50,7 @@ int RemoveFromArray( int staticArray[], int& size, int position )
 		return -2;
 
 	for ( int i = position; i < size - 1; i++ )
-		staticArray[i] = staticArray[i + 1];
+		array[i] = array[i + 1];
 
 	size--;
 

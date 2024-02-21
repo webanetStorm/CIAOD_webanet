@@ -48,7 +48,7 @@ int RemoveFromArray( int*& array, int& size, int position )
 	for ( int i = position; i < size - 1; i++ )
 		array[i] = array[i + 1];
 
-	array = (int*)( realloc( array, ( --size ) * sizeof( int ) ) );
+	array = (int*)realloc( array, ( --size ) * sizeof( int ) );
 
 
 	return 0;
