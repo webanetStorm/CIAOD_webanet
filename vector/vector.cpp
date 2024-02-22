@@ -144,7 +144,7 @@ int main()
 
 	while ( true )
 	{
-		cout << "\nВыберите действи1е: ";
+		cout << "\nВыберите действие: ";
 		cin >> menu;
 
 		switch ( menu )
