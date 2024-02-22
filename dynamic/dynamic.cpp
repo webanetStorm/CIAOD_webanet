@@ -76,19 +76,15 @@ int CreateNewArray( int* arrayA, int* arrayB, int sizeA, int& sizeB )
 	{
 		if ( SumOfDigits( arrayA[i] ) % 7 == 0 )
 		{
-			if ( sizeB > 0 )
-			{
-				int j = sizeB++ - 1;
-				while ( j >= 1 and arrayB[j] < arrayA[i] )
-					j--;
+			int j = sizeB++ - 1;
 
-				for ( int k = sizeB - 1; k > j + 1; k-- )
-					arrayB[k] = arrayB[k - 1];
+			while ( j >= 1 and arrayB[j] < arrayA[i] )
+				j--;
 
-				arrayB[j + 1] = arrayA[i];
-			}
-			else
-				arrayB[sizeB++] = arrayA[i];
+			for ( int k = sizeB - 1; k > j + 1; k-- )
+				arrayB[k] = arrayB[k - 1];
+
+			arrayB[j + 1] = arrayA[i];
 		}
 	}
 
@@ -265,5 +261,8 @@ int main()
 
 		}
 	}
+
+	delete[] dynamicArray;
+	delete[] newDynamicArray;
 
 }
