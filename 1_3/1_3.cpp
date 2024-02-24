@@ -1,9 +1,8 @@
 ﻿#include <iostream>
+#include <vector>
 
 
 using namespace std;
-
-const int MAX_STATIC_SIZE = 10;
 
 
 int PrintMenu()
@@ -20,39 +19,30 @@ int PrintMenu()
 	return 0;
 }
 
-int PrintArray( int array[], int size )
+int PrintArray( vector<int> array )
 {
 	cout << "Массив: ";
 
-	for ( int i = 0; i < size; i++ )
-		cout << array[i] << ' ';
+	for ( int elem : array )
+		cout << elem << ' ';
 	cout << endl;
 
 	return 0;
 }
 
-int AddToArray( int array[], int& size, int newNumber )
+int AddToArray( vector<int>& array, int newNumber )
 {
-	if ( size >= MAX_STATIC_SIZE )
-		return -1;
-
-	array[size++] = newNumber;
+	array.push_back( newNumber );
 
 	return 0;
 }
 
-int RemoveFromArray( int array[], int& size, int position )
+int RemoveFromArray( vector<int>& array, int position )
 {
-	if ( size <= 0 )
+	if ( position >= array.size() )
 		return -1;
-	if ( position >= size )
-		return -2;
 
-	for ( int i = position; i < size - 1; i++ )
-		array[i] = array[i + 1];
-
-	size--;
-
+	array.erase( array.begin() + position );
 
 	return 0;
 }
@@ -71,34 +61,34 @@ int SumOfDigits( int number )
 	return result;
 }
 
-int CreateNewArray( int arrayA[], int arrayB[], int sizeA, int& sizeB )
+int CreateNewArray( vector<int> arrayA, vector<int>& arrayB )
 {
-	sizeB = 0;
-
-	for ( int i = 0; i < sizeA; i++ )
+	for ( int i = 0; i < arrayA.size(); i++ )
 	{
 		if ( SumOfDigits( arrayA[i] ) % 7 == 0 )
 		{
-			int j = sizeB++ - 1;
+			if ( arrayB.size() > 0 )
+			{
+				auto position = arrayB.begin() + 1;
 
-			while ( j >= 1 and arrayB[j] < arrayA[i] )
-				j--;
+				while ( position != arrayB.end() and *position > arrayA[i] )
+					position++;
 
-			for ( int k = sizeB - 1; k > j + 1; k-- )
-				arrayB[k] = arrayB[k - 1];
-
-			arrayB[j + 1] = arrayA[i];
+				arrayB.insert( position, arrayA[i] );
+			}
+			else
+				arrayB.push_back( arrayA[i] );
 		}
 	}
 
 	return 0;
 }
 
-int FindMinElement( int array[], int size )
+int FindMinElement( vector<int> array )
 {
 	int value = INT_MAX, index = -1;
 
-	for ( int i = 0; i < size; i++ )
+	for ( int i = 0; i < array.size(); i++ )
 	{
 		if ( array[i] < value )
 		{
@@ -131,12 +121,12 @@ bool IsAscendingSequence( int number )
 	return true;
 }
 
-int CountAscendingSequences( int array[], int size )
+int CountAscendingSequences( vector<int> array )
 {
 	int result = 0;
 
-	for ( int i = 0; i < size; i++ )
-		if ( IsAscendingSequence( array[i] ) )
+	for ( int elem : array )
+		if ( IsAscendingSequence( elem ) )
 			result++;
 
 	return result;
@@ -144,8 +134,8 @@ int CountAscendingSequences( int array[], int size )
 
 int main()
 {
-	int staticArray[MAX_STATIC_SIZE], newStaticArray[MAX_STATIC_SIZE];
-	int currentStaticArraySize = 0, currentStaticNewArraySize = 0, tempNumber;
+	vector<int> array, newArray;
+	int tempNumber;
 	char menu, subMenu;
 
 	setlocale( LC_ALL, "Russian" );
@@ -168,12 +158,12 @@ int main()
 				{
 					case '1':
 					{
-						PrintArray( staticArray, currentStaticArraySize );
+						PrintArray( array );
 						break;
 					}
 					case '2':
 					{
-						PrintArray( newStaticArray, currentStaticNewArraySize );
+						PrintArray( newArray );
 						break;
 					}
 					default:
@@ -191,9 +181,8 @@ int main()
 				cout << "Введите число: ";
 				cin >> tempNumber;
 
-				AddToArray( staticArray, currentStaticArraySize, tempNumber ) == -1 
-					? cout << "Массив полон\n" 
-					: cout << "Элемент успешно добавлен\n";
+				AddToArray( array, tempNumber );
+				cout << "Элемент добавлен\n";
 
 				break;
 			}
@@ -203,39 +192,26 @@ int main()
 				cout << "Введите позицию: ";
 				cin >> tempNumber;
 
-				switch ( RemoveFromArray( staticArray, currentStaticArraySize, tempNumber ) )
-				{
-					case 0:
-					{
-						cout << "Элемент успешно удален\n";
-						break;
-					}
-					case -1:
-					{
-						cout << "Массив пуст\n";
-						break;
-					}
-					case -2:
-					{
-						cout << "Такого элемента нет\n";
-						break;
-					}
-				}
+				RemoveFromArray( array, tempNumber ) == 0
+					? cout << "Элемент успешно удален\n"
+					: cout << "Такого элемента нет\n";
+
 
 				break;
 			}
 
 			case '4':
 			{
-				CreateNewArray( staticArray, newStaticArray, currentStaticArraySize, currentStaticNewArraySize );
+				CreateNewArray( array, newArray );
 				cout << "Новый массив успешно сформирован\n";
+
 
 				break;
 			}
 
 			case '5':
 			{
-				RemoveFromArray( newStaticArray, currentStaticNewArraySize, FindMinElement( newStaticArray, currentStaticNewArraySize ) ) == 0
+				RemoveFromArray( newArray, FindMinElement( newArray ) ) == 0
 					? cout << "Элемент успешно удален\n"
 					: cout << "Массив пуст\n";
 
@@ -245,7 +221,7 @@ int main()
 			case '6':
 			{
 				cout << "Кол-во чисел исх. массива, цифры которого образуют возр. посл-сть: "
-					<< CountAscendingSequences( staticArray, currentStaticArraySize ) << endl;
+					<< CountAscendingSequences( array ) << endl;
 
 				break;
 			}
@@ -265,7 +241,5 @@ int main()
 
 		}
 	}
-
-	return 0;
 
 }

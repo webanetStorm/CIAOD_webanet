@@ -3,6 +3,8 @@
 
 using namespace std;
 
+const int MAX_STATIC_SIZE = 10;
+
 
 int PrintMenu()
 {
@@ -18,7 +20,7 @@ int PrintMenu()
 	return 0;
 }
 
-int PrintArray( int* array, int size )
+int PrintArray( int array[], int size )
 {
 	cout << "Массив: ";
 
@@ -29,15 +31,17 @@ int PrintArray( int* array, int size )
 	return 0;
 }
 
-int AddToArray( int*& array, int& size, int newNumber )
+int AddToArray( int array[], int& size, int newNumber )
 {
-	array = (int*)realloc( array, ++size * sizeof( int ) );
-	array[size - 1] = newNumber;
+	if ( size >= MAX_STATIC_SIZE )
+		return -1;
+
+	array[size++] = newNumber;
 
 	return 0;
 }
 
-int RemoveFromArray( int*& array, int& size, int position )
+int RemoveFromArray( int array[], int& size, int position )
 {
 	if ( size <= 0 )
 		return -1;
@@ -47,7 +51,7 @@ int RemoveFromArray( int*& array, int& size, int position )
 	for ( int i = position; i < size - 1; i++ )
 		array[i] = array[i + 1];
 
-	array = (int*)realloc( array, ( --size ) * sizeof( int ) );
+	size--;
 
 
 	return 0;
@@ -67,7 +71,7 @@ int SumOfDigits( int number )
 	return result;
 }
 
-int CreateNewArray( int* arrayA, int* arrayB, int sizeA, int& sizeB )
+int CreateNewArray( int arrayA[], int arrayB[], int sizeA, int& sizeB )
 {
 	sizeB = 0;
 
@@ -90,7 +94,7 @@ int CreateNewArray( int* arrayA, int* arrayB, int sizeA, int& sizeB )
 	return 0;
 }
 
-int FindMinElement( int* array, int size )
+int FindMinElement( int array[], int size )
 {
 	int value = INT_MAX, index = -1;
 
@@ -127,7 +131,7 @@ bool IsAscendingSequence( int number )
 	return true;
 }
 
-int CountAscendingSequences( int* array, int size )
+int CountAscendingSequences( int array[], int size )
 {
 	int result = 0;
 
@@ -140,9 +144,8 @@ int CountAscendingSequences( int* array, int size )
 
 int main()
 {
-	int* dynamicArray = new int[0];
-	int* newDynamicArray = new int[0];
-	int currentArraySize = 0, currentNewArraySize = 0, tempNumber;
+	int staticArray[MAX_STATIC_SIZE], newStaticArray[MAX_STATIC_SIZE];
+	int currentStaticArraySize = 0, currentStaticNewArraySize = 0, tempNumber;
 	char menu, subMenu;
 
 	setlocale( LC_ALL, "Russian" );
@@ -165,12 +168,12 @@ int main()
 				{
 					case '1':
 					{
-						PrintArray( dynamicArray, currentArraySize );
+						PrintArray( staticArray, currentStaticArraySize );
 						break;
 					}
 					case '2':
 					{
-						PrintArray( newDynamicArray, currentNewArraySize );
+						PrintArray( newStaticArray, currentStaticNewArraySize );
 						break;
 					}
 					default:
@@ -188,8 +191,9 @@ int main()
 				cout << "Введите число: ";
 				cin >> tempNumber;
 
-				AddToArray( dynamicArray, currentArraySize, tempNumber );
-				cout << "Элемент успешно добавлен\n";
+				AddToArray( staticArray, currentStaticArraySize, tempNumber ) == -1
+					? cout << "Массив полон\n"
+					: cout << "Элемент успешно добавлен\n";
 
 				break;
 			}
@@ -199,7 +203,7 @@ int main()
 				cout << "Введите позицию: ";
 				cin >> tempNumber;
 
-				switch ( RemoveFromArray( dynamicArray, currentArraySize, tempNumber ) )
+				switch ( RemoveFromArray( staticArray, currentStaticArraySize, tempNumber ) )
 				{
 					case 0:
 					{
@@ -223,7 +227,7 @@ int main()
 
 			case '4':
 			{
-				CreateNewArray( dynamicArray, newDynamicArray, currentArraySize, currentNewArraySize );
+				CreateNewArray( staticArray, newStaticArray, currentStaticArraySize, currentStaticNewArraySize );
 				cout << "Новый массив успешно сформирован\n";
 
 				break;
@@ -231,7 +235,7 @@ int main()
 
 			case '5':
 			{
-				RemoveFromArray( newDynamicArray, currentNewArraySize, FindMinElement( newDynamicArray, currentNewArraySize ) ) == 0
+				RemoveFromArray( newStaticArray, currentStaticNewArraySize, FindMinElement( newStaticArray, currentStaticNewArraySize ) ) == 0
 					? cout << "Элемент успешно удален\n"
 					: cout << "Массив пуст\n";
 
@@ -240,8 +244,8 @@ int main()
 
 			case '6':
 			{
-				cout << "Кол-во чисел исх. массива, цифры которого образуют возр. посл-сть: " 
-					<< CountAscendingSequences( dynamicArray, currentArraySize ) << endl;
+				cout << "Кол-во чисел исх. массива, цифры которого образуют возр. посл-сть: "
+					<< CountAscendingSequences( staticArray, currentStaticArraySize ) << endl;
 
 				break;
 			}
@@ -262,7 +266,6 @@ int main()
 		}
 	}
 
-	delete[] dynamicArray;
-	delete[] newDynamicArray;
+	return 0;
 
 }
