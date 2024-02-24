@@ -193,7 +193,9 @@ int main()
 				cout << "Введите позицию: ";
 				cin >> tempNumber;
 
-				RemoveFromArray( array, tempNumber ) == 0 ? cout << "Элемент успешно удален\n" : cout << "Такого элемента нет\n";
+				RemoveFromArray( array, tempNumber ) == 0 
+					? cout << "Элемент успешно удален\n" 
+					: cout << "Такого элемента нет\n";
 
 
 				break;
@@ -219,7 +221,8 @@ int main()
 
 			case '6':
 			{
-				cout << "Кол-во чисел исх. массива, цифры которого образуют возр. посл-сть: " << CountAscendingSequences( array ) << endl;
+				cout << "Кол-во чисел исх. массива, цифры которого образуют возр. посл-сть: " 
+					<< CountAscendingSequences( array ) << endl;
 
 				break;
 			}

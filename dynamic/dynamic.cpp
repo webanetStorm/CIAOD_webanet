@@ -241,7 +241,8 @@ int main()
 
 			case '6':
 			{
-				cout << "Кол-во чисел исх. массива, цифры которого образуют возр. посл-сть: " << CountAscendingSequences( dynamicArray, currentArraySize ) << endl;
+				cout << "Кол-во чисел исх. массива, цифры которого образуют возр. посл-сть: " 
+					<< CountAscendingSequences( dynamicArray, currentArraySize ) << endl;
 
 				break;
 			}

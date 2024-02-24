@@ -192,7 +192,9 @@ int main()
 				cout << "Введите число: ";
 				cin >> tempNumber;
 
-				AddToArray( staticArray, currentStaticArraySize, tempNumber ) == -1 ? cout << "Массив полон\n" : cout << "Элемент успешно добавлен\n";
+				AddToArray( staticArray, currentStaticArraySize, tempNumber ) == -1 
+					? cout << "Массив полон\n" 
+					: cout << "Элемент успешно добавлен\n";
 
 				break;
 			}
@@ -243,7 +245,8 @@ int main()
 
 			case '6':
 			{
-				cout << "Кол-во чисел исх. массива, цифры которого образуют возр. посл-сть: " << CountAscendingSequences( staticArray, currentStaticArraySize ) << endl;
+				cout << "Кол-во чисел исх. массива, цифры которого образуют возр. посл-сть: "
+					<< CountAscendingSequences( staticArray, currentStaticArraySize ) << endl;
 
 				break;
 			}

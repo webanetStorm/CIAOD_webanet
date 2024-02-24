@@ -9,6 +9,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dynamic", "dynamic\dynamic.
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "vector", "vector\vector.vcxproj", "{FB34A663-6CB1-4B00-BA98-C0664B415C3E}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1", "1", "{B1017C8B-5F94-4D76-9050-B5C7BEF1CF8C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -44,6 +46,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{6F951404-B60A-42FE-9398-092AEC6058C4} = {B1017C8B-5F94-4D76-9050-B5C7BEF1CF8C}
+		{5E9D4158-355A-4496-9B63-56E3D9CA057B} = {B1017C8B-5F94-4D76-9050-B5C7BEF1CF8C}
+		{FB34A663-6CB1-4B00-BA98-C0664B415C3E} = {B1017C8B-5F94-4D76-9050-B5C7BEF1CF8C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CEC88C8A-7677-4D62-8449-47283595343A}
