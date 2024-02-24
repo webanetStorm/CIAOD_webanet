@@ -74,7 +74,7 @@ bool CheckProductOfElements( int** matrix, int matrixOrder )
         productMain *= matrix[i][i + 1];
 
     for ( int i = 0; i < matrixOrder - 1; i++ )
-        productSecondary *= matrix[matrixOrder - 2 - i][i];
+        productSecondary *= matrix[matrixOrder - i - 2][i];
 
 
     return productMain == productSecondary;
@@ -83,8 +83,9 @@ bool CheckProductOfElements( int** matrix, int matrixOrder )
 int main()
 {
     int** matrix = nullptr;
-    char menu, subMenu;
     int matrixOrder = 0;
+    char menu, subMenu;
+
 
     setlocale( LC_ALL, "Russian" );
     PrintMenu();
