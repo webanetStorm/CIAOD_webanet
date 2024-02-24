@@ -28,7 +28,6 @@ int PrintArray( int array[], int size )
 		cout << array[i] << ' ';
 	cout << endl;
 
-
 	return 0;
 }
 

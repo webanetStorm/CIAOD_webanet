@@ -27,7 +27,6 @@ int PrintArray( vector<int> array )
 		cout << elem << ' ';
 	cout << endl;
 
-
 	return 0;
 }
 
