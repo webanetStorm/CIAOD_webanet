@@ -1,5 +1,4 @@
 ﻿#include <iostream>
-#include <iomanip>
 #include <vector>
 
 using namespace std;
@@ -23,7 +22,7 @@ int PrintMatrix( vector<vector<int>> points )
     for ( vector<int> row : points )
     {
         for ( int elem : row )
-            cout << setw( 5 ) << elem;
+            cout << elem << ' ';
         cout << endl;
     }
 

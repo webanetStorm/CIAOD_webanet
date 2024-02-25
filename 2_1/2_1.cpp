@@ -1,5 +1,4 @@
 ﻿#include <iostream>
-#include <iomanip>
 #include <cstdlib>
 #include <ctime>
 
@@ -24,27 +23,21 @@ int PrintMatrix( int** matrix, int matrixOrder )
     for ( int i = 0; i < matrixOrder; i++ )
     {
         for ( int j = 0; j < matrixOrder; j++ )
-            cout << setw( 5 ) << matrix[i][j];
+            cout << matrix[i][j] << ' ';
         cout << endl;
     }
 
     return 0;
 }
 
-int InitMatrix( int**& matrix, int matrixOrder )
+int FillMatrixManually( int**& matrix, int matrixOrder )
 {
     matrix = new int* [matrixOrder];
 
     for ( int i = 0; i < matrixOrder; i++ )
+    {
         matrix[i] = new int[matrixOrder];
 
-    return 0;
-}
-
-int FillMatrixManually( int**& matrix, int matrixOrder )
-{
-    for ( int i = 0; i < matrixOrder; i++ )
-    {
         for ( int j = 0; j < matrixOrder; j++ )
         {
             cout << "Введите элемент [" << i << "][" << j << "]: ";
@@ -57,11 +50,16 @@ int FillMatrixManually( int**& matrix, int matrixOrder )
 
 int FillMatrixAutomatically( int**& matrix, int matrixOrder )
 {
-    srand( static_cast<unsigned int>( time( 0 ) ) );
+    matrix = new int* [matrixOrder];
+    srand( time( 0 ) );
 
     for ( int i = 0; i < matrixOrder; i++ )
+    {
+        matrix[i] = new int[matrixOrder];
+
         for ( int j = 0; j < matrixOrder; j++ )
-            matrix[i][j] = rand() % 199 - 99;
+            matrix[i][j] = rand() % 10;
+    }
 
     return 0;
 }
@@ -108,16 +106,13 @@ int main()
 
             case '2':
             {
-                cout << "Введите порядок матрицы (макс. 10): ";
+                cout << "Введите порядок матрицы (макс. 25): ";
 
-                if ( !( cin >> matrixOrder ) or matrixOrder > 10 or matrixOrder <= 2 )
+                if ( !( cin >> matrixOrder ) or matrixOrder > 25 or matrixOrder <= 2 )
                 {
                     cout << "Некорректный ввод\n";
                     break;
                 }
-
-
-                InitMatrix( matrix, matrixOrder );
 
 
                 cout << "\nВыберите способ заполнения матрицы (1 - ручное построчное, 2 - автоматическое): ";
