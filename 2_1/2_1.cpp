@@ -122,7 +122,23 @@ int main()
                 {
                     case '1':
                     {
-                        FillMatrixManually( matrix, matrixOrder );
+                        // FillMatrixManually( matrix, matrixOrder );
+
+
+                        matrix = new int* [matrixOrder];
+
+                        for ( int i = 0; i < matrixOrder; i++ )
+                        {
+                            matrix[i] = new int[matrixOrder];
+
+                            for ( int j = 0; j < matrixOrder; j++ )
+                            {
+                                cout << "Введите элемент [" << i << "][" << j << "]: ";
+                                cin >> matrix[i][j];
+                            }
+                        }
+
+
                         break;
                     }
                     case '2':

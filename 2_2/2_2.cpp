@@ -1,5 +1,7 @@
 ﻿#include <iostream>
+#include <cstdlib>
 #include <vector>
+#include <ctime>
 
 using namespace std;
 
@@ -38,12 +40,30 @@ bool IsXUnique( vector<vector<int>> points, int x )
     return true;
 }
 
-int FillMatrix( vector<vector<int>>& points, int x, int y )
+int ClearMatrix( vector<vector<int>>& points )
+{
+    points.clear();
+
+    return 0;
+}
+
+int AddMatrixElem( vector<vector<int>>& points, int x, int y )
 {
     if ( !IsXUnique( points, x ) )
         return -1;
 
     points.push_back( { x, y } );
+
+    return 0;
+}
+
+int AutoFillMatrix( vector<vector<int>>& points, int amountOfPoints )
+{
+    srand( time( 0 ) );
+
+    for ( int i = 0; i < amountOfPoints; )
+        if ( AddMatrixElem( points, rand() % 10, rand() % 10 ) == 0 )
+            i++;
 
     return 0;
 }
@@ -78,7 +98,7 @@ int main()
 {
     vector<vector<int>> points;
     int amountOfPoints;
-    char menu;
+    char menu, subMenu;
 
 
     setlocale( LC_ALL, "Russian" );
@@ -103,6 +123,9 @@ int main()
 
             case '2':
             {
+                ClearMatrix( points );
+
+
                 cout << "Введите нечетное количество точек: ";
 
                 if ( !( cin >> amountOfPoints ) or amountOfPoints % 2 == 0 )
@@ -112,17 +135,38 @@ int main()
                 }
 
 
-                int x, y;
+                cout << "\nВыберите способ ввод координат (1 - ручное, 2 - автоматическое): ";
+                cin >> subMenu;
 
-                for ( int i = 0; i < amountOfPoints; )
+                switch ( subMenu )
                 {
-                    cout << "Введите координаты точки " << i + 1 << " (X и Y):\n";
-                    cin >> x >> y;
+                    case '1':
+                    {
+                        int x, y;
 
-                    if ( FillMatrix( points, x, y ) == -1 )
-                        cout << "Координаты по оси X должны быть уникальными\n";
-                    else
-                        i++;
+                        for ( int i = 0; i < amountOfPoints; )
+                        {
+                            cout << "Введите координаты точки " << i + 1 << " (X и Y):\n";
+                            cin >> x >> y;
+
+                            if ( AddMatrixElem( points, x, y ) == -1 )
+                                cout << "Координаты по оси X должны быть уникальными\n";
+                            else
+                                i++;
+                        }
+
+                        break;
+                    }
+                    case '2':
+                    {
+                        AutoFillMatrix( points, amountOfPoints );
+                        break;
+                    }
+                    default:
+                    {
+                        cout << "Некорректный ввод\n";
+                        break;
+                    }
                 }
 
 
