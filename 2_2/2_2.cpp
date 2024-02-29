@@ -128,7 +128,7 @@ int main()
 
                 cout << "Введите нечетное количество точек: ";
 
-                if ( !( cin >> amountOfPoints ) or amountOfPoints % 2 == 0 )
+                if ( !( cin >> amountOfPoints ) or amountOfPoints % 2 == 0 or amountOfPoints <= 0 )
                 {
                     cout << "Необходимо ввести нечетное кол-во точек на плоскости\n";
                     break;
