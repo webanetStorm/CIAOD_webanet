@@ -8,14 +8,7 @@ const int MAX_WORD_LENGTH = 100;
 const int MAX_WORDS = 100;
 
 
-int PrintMenu()
-{
-	cout << "\t1 - Ввести текст\n\t2 - Получить самое длинное слов из уникальных букв\n\t0 - Выход\n";
-
-	return 0;
-}
-
-char** CreateArrayOfWords( char *subject, int *count )
+char** CreateArrayOfWords( char* subject, int* count )
 {
 	char** result = (char**)malloc( MAX_WORDS * sizeof( char* ) );
 	char* word = strtok( subject, " " );
@@ -32,7 +25,7 @@ char** CreateArrayOfWords( char *subject, int *count )
 	return result;
 }
 
-bool AreAllCharsUnique( char *word )
+bool AreAllCharsUnique( char* word )
 {
 	for ( int i = 0; i < strlen( word ) - 1; i++ )
 		for ( int j = i + 1; j < strlen( word ); j++ )
@@ -42,7 +35,7 @@ bool AreAllCharsUnique( char *word )
 	return false;
 }
 
-char *FindLongestWord( char **words, int count )
+char* FindLongestWord( char** words, int count )
 {
 	char* result = new char;
 	int maxLength = 0;
@@ -66,13 +59,16 @@ int main()
 
 	SetConsoleCP( 1251 );
 	SetConsoleOutputCP( 1251 );
-	PrintMenu();
+
+
+	cout << "\t1 - Ввести текст\n\t2 - Получить самое длинное слов из уникальных букв\n\t0 - Выход\n";
 
 
 	while ( true )
 	{
 		cout << "\nВыберите действие: ";
 		cin >> menu;
+		cin.ignore();
 
 		switch ( menu )
 		{
@@ -114,8 +110,7 @@ int main()
 
 			default:
 			{
-				cout << "Некорректный ввод\n";
-				PrintMenu();
+				cout << "Некорректный ввод\n\t1 - Ввести текст\n\t2 - Получить самое длинное слов из уникальных букв\n\t0 - Выход\n";
 
 				break;
 			}
