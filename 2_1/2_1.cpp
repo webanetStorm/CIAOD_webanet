@@ -5,17 +5,6 @@
 using namespace std;
 
 
-int PrintMenu()
-{
-    cout
-        << "\t1 - Распечатать матрицу\n"
-        << "\t2 - Заполнить матрицу\n"
-        << "\t3 - Проверить соблюдение условия задания\n"
-        << "\t0 - Выход\n";
-
-    return 0;
-}
-
 int PrintMatrix( int** matrix, int matrixOrder )
 {
     cout << "Матрица:\n";
@@ -85,8 +74,14 @@ int main()
     char menu, subMenu;
 
 
-    setlocale( LC_ALL, "Russian" );
-    PrintMenu();
+    setlocale( LC_ALL, "" );
+ 
+
+    cout
+        << "\t1 - Распечатать матрицу\n"
+        << "\t2 - Заполнить матрицу\n"
+        << "\t3 - Проверить соблюдение условия задания\n"
+        << "\t0 - Выход\n";
 
 
     while ( true )
@@ -174,7 +169,14 @@ int main()
             default:
             {
                 cout << "Некорректный ввод\n";
-                PrintMenu();
+
+
+                cout
+                    << "\t1 - Распечатать матрицу\n"
+                    << "\t2 - Заполнить матрицу\n"
+                    << "\t3 - Проверить соблюдение условия задания\n"
+                    << "\t0 - Выход\n";
+
 
                 break;
             }
