@@ -1,5 +1,7 @@
-﻿#include <windows.h>
-#include <iostream>
+﻿#include <iostream>
+#include <windows.h>
+#include <string.h>
+#include <stdio.h>
 
 using namespace std;
 
