@@ -83,7 +83,7 @@ int main()
 			{
 				char* longest = FindLongestWord( words, CreateArrayOfWords( text, words ) );
 
-				*( longest ) == '\0'
+				longest == NULL
 					? cout << "Самое длинное уникальное слово не введено" << endl
 					: cout << "Самое длинное уникальное слово: " << longest << endl;
 
