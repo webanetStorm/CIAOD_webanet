@@ -30,7 +30,8 @@ vector<string> CreateArrayOfWords( string subject )
 		word += symbol;
 	}
 
-	result.push_back( word );
+	if ( !word.empty() )
+		result.push_back( word );
 
 
 	return result;

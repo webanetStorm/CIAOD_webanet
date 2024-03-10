@@ -4,21 +4,19 @@
 using namespace std;
 
 
-const int MAX_WORD_LENGTH = 100;
-const int MAX_WORDS = 100;
+const int MAX_TEXT_LENGTH = 1024;
+const int MAX_NUM_WORDS = 64;
 
 
-char** CreateArrayOfWords( char* subject, int* count )
+int CreateArrayOfWords( char* text, char** words )
 {
-	char** result = (char**)malloc( MAX_WORDS * sizeof( char* ) );
-	char* word = strtok( subject, " " );
-	*count = 0;
+	int result = 0;
+	char* word = strtok( text, " " );
 
-	while ( word != NULL and *count < MAX_WORDS )
+	while ( word != NULL )
 	{
-		result[*count] = (char*)malloc( ( strlen( word ) + 1 ) * sizeof( char ) );
-		strcpy( result[*count], word );
-		( *count )++;
+		words[result] = new char[strlen( word ) + 1];
+		strcpy( words[result++], word );
 		word = strtok( NULL, " " );
 	}
 
@@ -30,22 +28,22 @@ bool AreAllCharsUnique( char* word )
 	for ( int i = 0; i < strlen( word ) - 1; i++ )
 		for ( int j = i + 1; j < strlen( word ); j++ )
 			if ( word[i] == word[j] )
-				return true;
+				return false;
 
-	return false;
+	return true;
 }
 
-char* FindLongestWord( char** words, int count )
+char* FindLongestWord( char** words, int wordCount )
 {
-	char* result = new char;
+	char* result = NULL;
 	int maxLength = 0;
 
-	for ( int i = 0; i < count; i++ )
+	for ( int i = 0; i < wordCount; i++ )
 	{
 		if ( AreAllCharsUnique( words[i] ) and strlen( words[i] ) > maxLength )
 		{
-			result = words[i];
 			maxLength = strlen( words[i] );
+			result = words[i];
 		}
 	}
 
@@ -54,12 +52,11 @@ char* FindLongestWord( char** words, int count )
 
 int main()
 {
-	char menu, text[1024] = { 0 }, *longest, **words;
-	int wordsCount;
+	char menu, text[MAX_TEXT_LENGTH], *words[MAX_NUM_WORDS];
+	int wordCount = 0;
 
 	SetConsoleCP( 1251 );
 	SetConsoleOutputCP( 1251 );
-
 
 	cout << "\t1 - Ввести текст\n\t2 - Получить самое длинное слов из уникальных букв\n\t0 - Выход\n";
 
@@ -76,29 +73,19 @@ int main()
 			case '1':
 			{
 				cout << "Введите текст: ";
-
-				fgets( text, sizeof( text ), stdin );
-				text[strcspn( text, "\n" )] = 0;
-
+				cin.getline( text, sizeof( text ) );
 				cout << "Текст успешно записан\n";
-
-
+				
 				break;
 			}
 
 			case '2':
 			{
-				words = CreateArrayOfWords( text, &wordsCount );
-				longest = FindLongestWord( words, wordsCount );
+				char* longest = FindLongestWord( words, CreateArrayOfWords( text, words ) );
 
-				strlen( longest ) == 0 
-					? cout << "Самое длинное уникальное слово не введено\n"
+				*( longest ) == '\0'
+					? cout << "Самое длинное уникальное слово не введено" << endl
 					: cout << "Самое длинное уникальное слово: " << longest << endl;
-
-				for ( int i = 0; i < wordsCount; i++ ) 
-					free( words[i] );
-				free( words );
-
 
 				break;
 			}
