@@ -27,7 +27,7 @@ struct Question
 
     Question();
 
-    std::string ToFormatString();
+    string ToFormatString();
 
 };
 
@@ -35,7 +35,7 @@ struct Question
 struct Test
 {
 
-    std::vector<Question> Questions;
+    vector<Question> Questions;
 
     Test();
 
@@ -45,7 +45,7 @@ struct Test
 
     void RemoveQuestions( int );
 
-    std::vector<Question> GenerateTest();
+    vector<Question> GenerateTest();
 
     void AutoFillTest();
 

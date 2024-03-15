@@ -10,7 +10,7 @@ int Question::_nextId = 1;
 
 Question::Question() = default;
 
-Question::Question(
+Question::Question (
     int themeId,
     string questionText,
     int points,
@@ -69,7 +69,7 @@ void Test::InsertQuestion( Question question )
 
 void Test::RemoveQuestions( int themeId )
 {
-    Questions.erase( remove_if( Questions.begin(), Questions.end(), [themeId]( Question& q )
+    Questions.erase( remove_if( Questions.begin(), Questions.end(), [themeId]( Question q )
     {
         return q.ThemeId == themeId;
     } ), Questions.end() );
