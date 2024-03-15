@@ -1,106 +1,108 @@
-﻿#include <iostream>
-#include <vector>
-#include <string>
-#include <format>
-
+﻿#include <windows.h>
+#include <iostream>
+#include "Struct.h"
 
 using namespace std;
 
 
-const int MAX_QUESTION_LENGTH = 100;
-const int MAX_NUM_QUESTIONS = 5;
-
-
-
-struct Question
-{
-
-    int ThemeId;
-
-    char QuestionText[MAX_QUESTION_LENGTH];
-
-    int Points;
-
-    char AnswerOptions[MAX_NUM_QUESTIONS];
-
-    int CorrectAnswerIndex;
-
-
-
-    Question ( 
-        int themeId, 
-        const char questionText[MAX_QUESTION_LENGTH],
-        int points, 
-        const char answerOptions[MAX_NUM_QUESTIONS], 
-        int correctAnswerIndex 
-    )
-    {
-        ThemeId = themeId;
-        CorrectAnswerIndex = correctAnswerIndex;
-        Points = points % 100;
-
-        strncpy_s( QuestionText, questionText, _TRUNCATE );
-        strncpy_s( AnswerOptions, answerOptions, _TRUNCATE );
-    }
-
-    Question() = default;
-
-
-
-    string ToFormatString()
-    {
-        string options;
-
-        for ( int i = 0; i < MAX_NUM_QUESTIONS; i++ )
-            options += format( "\n\t{}. {}", i, AnswerOptions[i] );
-
-        return format( "|{:^10}|{:<100s}|{:^6}|{}| Правильный ответ: {}",
-            ThemeId,
-            QuestionText,
-            Points,
-            AnswerOptions,
-            CorrectAnswerIndex
-        );
-    }
-
-};
-
-
-struct QuestionTable
-{
-
-    vector<Question> Questions;
-
-
-    QuestionTable() = default;
-
-    void Echo()
-    {
-        cout << format( "|{:^10}|{:^100s}|{:^6}|\n{:=^118}\n",
-            "Theme",
-            "Question",
-            "Points",
-            "" 
-        );
-
-        for ( int i = 0; i < Questions.size(); i++ )
-            cout << Questions.at( i ).ToFormatString() << endl;
-    }
-
-    void AddQuestion( const Question& question )
-    {
-        Questions.push_back( question );
-    }
-
-};
+const string MENU = "\
+    \t1 - Вывести таблицу\
+    \n\t2 - Добавить вопрос\
+    \n\t3 - Сформировать тест\
+    \n\t4 - Удалить тему\
+    \n\t5 - Автоматически заполнить таблицу\n\
+    \t0 - Выход\n";
 
 
 
 int main()
 {
-    setlocale( LC_ALL, "" );
-    Question q( 1, "2 + 2 = ?", 10, { "1", "2", "3", "4" }, 4);
-    cout << q.ToFormatString();
+    Test quiz;
+    char menu;
+
+
+    SetConsoleCP( 1251 );
+    SetConsoleOutputCP( 1251 );
+    cout << MENU;
+
+
+    while ( true )
+    {
+
+        cout << "\nВыберите действие: ";
+        cin >> menu;
+
+        switch ( menu )
+        {
+
+            case '1':
+            {
+                quiz.Echo( quiz.Questions );
+
+                break;
+            }
+
+            case '2':
+            {
+                Question question;
+
+                question = InputQuestion( question );
+                quiz.InsertQuestion( question );
+
+
+                break;
+            }
+
+            case '3':
+            {
+                vector<Question> test = quiz.GenerateTest();
+
+                cout << "Тест сгенерирован:\n";
+                quiz.Echo( quiz.GenerateTest() );
+
+
+                break;
+            }
+
+            case '4':
+            {
+                int id;
+
+                cout << "Укажите ID темы: ";
+                cin >> id;
+
+                quiz.RemoveQuestions( id );
+
+                cout << "Тема удалена\n";
+
+
+                break;
+            }
+
+            case '5':
+            {
+                quiz.AutoFillTest();
+                cout << "Вопросы успешно добавлены\n";
+
+                break;
+            }
+
+            case '0':
+            {
+                return 0;
+            }
+
+            default:
+            {
+                cout << "Некорректный ввод\n";
+                cout << MENU;
+
+                break;
+            }
+
+        }
+
+    }
 
 
     return 0;
